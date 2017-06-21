@@ -42,28 +42,28 @@ function getAwsProfiles(credFile) {
  * we'll exit the process. This is done to prevent erroneous configuration
  * of AWS resources
  */
-exports.select = function select(credFile) {
+exports.select = select = function (credFile) {
   credFile = expand(credFile || '~/.aws/credentials');
   const profiles = getAwsProfiles(credFile);
-  if (profiles.length === 0) {
+  if (!profiles || profiles.length === 0) {
     console.log(chalk.yellow(`${credFile} is empty or not found. Process will exit`));
     process.exit(1);
   }
   profiles.push('none of these (cancel)');
-  inquirer.prompt({
+  inquirer.prompt([{
     type: 'list',
     message: 'Pick an AWS credential profile to use:',
     name: 'profile',
     choices: profiles
-  }, function proc(answers) {
+  }]).then(answers => {
     if (answers.profile === 'none of these (cancel)') {
-      console.log(chalk.yellow(`\n Cancelling the deploy, process will exit`));
+      console.log(chalk.yellow(`\n Cancelling profile selection, process will exit`));
       process.exit(1);
     }
     const selected = answers.profile.replace(/ \(default\)$/, '')
-    console.log(chalk.green(`\n Using process.env.AWS_PROFILE='${selected}'`))
     process.env.AWS_PROFILE = selected;
-    return
+    console.log(chalk.green(`\n Setting process.env.AWS_PROFILE="${selected}"`))
+    return selected
   });
 }
 

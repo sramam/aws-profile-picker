@@ -42,7 +42,7 @@ function getAwsProfiles(credFile) {
  * we'll exit the process. This is done to prevent erroneous configuration
  * of AWS resources
  */
-exports.select = select = function (credFile) {
+exports.select = select = async function (credFile) {
   credFile = expand(credFile || '~/.aws/credentials');
   const profiles = getAwsProfiles(credFile);
   if (!profiles || profiles.length === 0) {
@@ -50,7 +50,7 @@ exports.select = select = function (credFile) {
     process.exit(1);
   }
   profiles.push('none of these (cancel)');
-  inquirer.prompt([{
+  return inquirer.prompt([{
     type: 'list',
     message: 'Pick an AWS credential profile to use:',
     name: 'profile',

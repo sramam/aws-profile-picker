@@ -52,7 +52,7 @@
       "clean",
       "lint",
       "compile:build",
-      "test"
+      "test-without-cover"
     ],
     "build:watch": [
       "compile:watch"
@@ -67,13 +67,10 @@
       "pkg-ok"
     ],
     "test:dist": [
-      "test-with-cover",
-      "combine-coverage",
-      "remap-coverage:dist"
+      "test-without-cover"
     ],
     "test": [
-      "test-with-cover",
-      "remap-coverage"
+      "test-without-cover"
     ],
     "precommit": [
       "postinstall",

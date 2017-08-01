@@ -4,7 +4,7 @@ import { run, Interaction, ENTER, UP, DOWN } from 'cli-inspector';
 
 describe(`aws-profile-picker`, function () {
   this.timeout(10000);
-  const debug = false;
+  const debug = true;
   it(`creds1 - cancel`, async () => {
     try {
       const interactions = <Interaction[]>[{
@@ -14,7 +14,7 @@ describe(`aws-profile-picker`, function () {
       }];
       const credentials = path.resolve('./src/test/fixtures/creds1');
       const script = path.join(__dirname, '../../index.js');
-      const cmd_line = `./node_modules/.bin/istanbul cover --dir ./coverage/partial/cred1 -- ${script} -c ${credentials}`;
+      const cmd_line = `node -- ${script} -c ${credentials}`;
       const result = await run(cmd_line, interactions, { debug });
       expect(true).to.be.true;
     } catch (err) {
@@ -32,7 +32,7 @@ describe(`aws-profile-picker`, function () {
     try {
       const credentials = path.resolve('./src/test/fixtures/creds0');
       const script = path.join(__dirname, '../../index.js');
-      const cmd_line = `./node_modules/.bin/istanbul cover -- ${script} -c ${credentials}`;
+      const cmd_line = `node -- ${script} -c ${credentials}`;
       const result = await run(cmd_line, interactions, { debug});
       expect(false).to.be.true;
     } catch (err) {
@@ -49,7 +49,7 @@ describe(`aws-profile-picker`, function () {
       }];
       const credentials = path.resolve('./src/test/fixtures/creds1');
       const script = path.join(__dirname, '../../index.js');
-      const cmd_line = `./node_modules/.bin/istanbul cover --dir ./coverage/partial/cred1 -- ${script} -c ${credentials}`;
+      const cmd_line = `node -- ${script} -c ${credentials}`;
       const result = await run(cmd_line, interactions, { debug });
       expect(true).to.be.true;
     } catch (err) {
@@ -66,7 +66,7 @@ describe(`aws-profile-picker`, function () {
       }];
       const credentials = path.resolve('./src/test/fixtures/creds1');
       const script = path.join(__dirname, '../../index.js');
-      const cmd_line = `./node_modules/.bin/istanbul cover --dir ./coverage/partial/cred1 -- ${script} -c ${credentials}`;
+      const cmd_line = `node -- ${script} -c ${credentials}`;
       const result = await run(cmd_line, interactions, { debug });
       expect(true).to.be.true;
     } catch (err) {

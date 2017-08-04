@@ -60,7 +60,7 @@ function pkgRepo(pkg) {
 exports.validate = () => {
 
   if (!!__dirname.match(/.*node_modules.*/)) {
-    // this is a dependent install, do not validate package.json
+    // this is a dependent install, skip validation
     return;
   }
 

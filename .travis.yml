@@ -4,3 +4,7 @@ node_js:
   - '7'
   - '8'
 cache: yarn
+script:
+  - npm run prepush
+    # get the coverage metrics to coveralls
+  - cat coverage/typescript/lcov.info | ./node_modules/coveralls/bin/coveralls.js

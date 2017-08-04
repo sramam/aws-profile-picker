@@ -16,6 +16,7 @@ install:
 build_script:
   - node --version
   - npm --version
+  - npm run prepush
 
 # Post-install test scripts.
 # test_script:

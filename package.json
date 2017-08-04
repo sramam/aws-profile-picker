@@ -1,6 +1,6 @@
 {
   "name": "aws-profile-picker",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "interactive AWS profile picker",
   "keywords": [
     "aws",
@@ -25,19 +25,24 @@
     "no-mods": "git-mods",
     "clean": "rimraf build coverage",
     "clean:dist": "rimraf dist",
+    "clean:ts-cover": "rimraf coverage/typescript",
+    "init:ts-cover": "mkdirp coverage/typescript",
     "lint": "tslint -c tslint.json src/**/*.ts",
     "compile:build": "tsc",
     "compile:dist": "tsc -p tsconfig.dist.json",
     "compile:watch": "tsc -w",
     "sh": "npm-sh",
     "secure": "nsp check",
-    "check": "ncu -e 1",
-    "test-with-cover": "istanbul cover ./node_modules/.bin/_mocha",
-    "test-without-cover": "mocha",
-    "remap-coverage:dist": "node ./scripts/remapped-coverage.js --force_min_cover true --output ./coverage/typescript",
-    "remap-coverage": "node ./scripts/remapped-coverage.js --force_min_cover=false --output ./coverage/typescript",
-    "coverage": "istanbul check-coverage ./coverage/typescript/coverage.json",
-    "combine-coverage": "istanbul-combine -d coverage -p summary -r lcov -r html coverage/partials/**/*.",
+    "check": "npm outdated",
+    "coverage": "run-batch",
+    "coverage:dist": "run-batch",
+    "remap-html": "remap-istanbul -i coverage/coverage.json -o coverage/typescript -t html",
+    "remap-json": "remap-istanbul -i coverage/coverage.json -o coverage/typescript/coverage.json -t json",
+    "remap-lcov": "remap-istanbul -i coverage/coverage.json -o coverage/typescript/lcov.info -t lcovonly",
+    "coverage-report": "istanbul report --include=coverage/typescript/coverage.json text-summary",
+    "check-coverage": "istanbul check-coverage --include coverage/typescript/coverage.json",
+    "test-with-cover": "istanbul cover ./node_modules/mocha/bin/_mocha -- --opts ./mocha.opts",
+    "test-without-cover": "mocha --opts mocha.opts",
     "build": "npm-run-batch",
     "build:dist": "run-batch",
     "build:watch": "cross-env NODE_ENV=production run-batch",
@@ -53,7 +58,7 @@
       "clean",
       "lint",
       "compile:build",
-      "test-without-cover"
+      "test"
     ],
     "build:watch": [
       "compile:watch"
@@ -68,42 +73,60 @@
       "pkg-ok"
     ],
     "test:dist": [
-      "test-without-cover"
+      "test-with-cover",
+      "coverage:dist"
     ],
     "test": [
-      "test-without-cover"
+      "test-with-cover",
+      "coverage"
+    ],
+    "coverage": [
+      "clean:ts-cover",
+      "init:ts-cover",
+      "remap-html",
+      "remap-json",
+      "remap-lcov",
+      "coverage-report"
+    ],
+    "coverage:dist": [
+      "clean:ts-cover",
+      "init:ts-cover",
+      "remap-html",
+      "remap-json",
+      "remap-lcov",
+      "coverage-report",
+      "check-coverage"
     ],
     "precommit": [
       "postinstall",
-      "build",
+      "build:dist",
       "staged-mods-ok"
     ],
     "prepush": [
       "build:dist",
-      "check",
       "secure",
       "no-mods"
     ]
   },
   "devDependencies": {
-    "@types/chai": "^3.4.35",
+    "@types/chai": "^4.0.2",
     "@types/circular-json": "^0.1.30",
     "@types/mocha": "^2.2.40",
-    "@types/node": "^7.0.8",
+    "@types/node": "^8.0.19",
     "@types/semver": "^5.3.31",
-    "chai": "^3.5.0",
+    "chai": "^4.1.0",
     "cli-inspector": "^1.0.3",
     "coveralls": "^2.12.0",
-    "cross-env": "^3.2.4",
-    "git-mods": "^1.0.4",
+    "cross-env": "^5.0.3",
+    "git-mods": "^1.0.7",
     "graceful-fs": "^4.1.11",
-    "husky": "^0.13.2",
+    "husky": "^0.14.3",
     "istanbul": "^0.4.5",
     "istanbul-combine": "^0.3.0",
     "mocha": "^3.2.0",
     "node-emoji": "^1.5.1",
     "npm-check-updates": "^2.10.3",
-    "npm-run-batch": "0.0.4",
+    "npm-run-batch": "0.0.6",
     "npm-sh": "^1.0.1",
     "nsp": "^2.6.3",
     "nsp-formatter-checkstyle": "^1.0.1",
@@ -113,7 +136,7 @@
     "remap-istanbul": "^0.9.1",
     "rimraf": "^2.6.1",
     "shelljs-nodecli": "^0.1.1",
-    "tslint": "^4.5.1",
+    "tslint": "^5.5.0",
     "typescript": "^2.2.1"
   },
   "dependencies": {

@@ -6,5 +6,6 @@ node_js:
 cache: yarn
 script:
   - npm run prepush
-    # get the coverage metrics to coveralls
-  - cat coverage/typescript/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+  # get the coverage metrics to coveralls
+  # Generating coverage for spawned CLI processes is still a WIP. Skipping coverage metrics.
+  # - cat coverage/typescript/lcov.info | ./node_modules/coveralls/bin/coveralls.js

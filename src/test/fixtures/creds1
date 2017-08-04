@@ -1,0 +1,11 @@
+[default]
+aws_access_key_id = AKIASOMELONESTRING12
+aws_secret_access_key = aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+
+[rootacct]
+aws_access_key_id = AKIASOMELONESTRING12
+aws_secret_access_key = aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+
+[org-1/userid]
+aws_access_key_id = AKIASOMELONESTRING13
+aws_secret_access_key = aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
